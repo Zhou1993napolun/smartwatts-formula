@@ -1,3 +1,57 @@
+# smartwatts-formula (written by TAN YING)
+
+# Activate conda env
+```
+conda activate rapl
+```
+
+# Install (if not)
+Install smartwatts
+```
+pip install smartwatts
+```
+Install mongodb
+```
+sudo apt install mongodb-server-core
+```
+Install pymongo
+```
+pip install pymongo
+```
+# Start hwpc-sensor
+Start mongodb server (if not)
+```
+mongod --dbpath /var/lib/mongo --logpath /var/log/mongodb/mongod.log --fork 
+```
+Write the configuration file for hwpc-sensor
+```
+vim /ty/config_file.json 
+```
+Start the hwpc-sensor
+```
+cd ty
+```
+```
+sudo docker run --rm --net=host --privileged --pid=host -v /sys:/sys -v /var/lib/docker/containers:/var/lib/docker/containers:ro -v /tmp/powerapi-sensor-reporting:/reporting -v $(pwd):/srv -v $(pwd)/config_file.json:/config_file.json powerapi/hwpc-sensor --config-file /config_file.json
+```
+
+# Start RAPL-formula (Open a new terminal)
+Write the configuration file for smartwatts
+```
+vim /ty/config_file_SW.json
+```
+Start smartwatts
+```
+python -m smartwatts --config-file config_file_SW.json
+```
+
+
+
+
+
+
+# Original README
+
 SmartWatts is a software-defined power meter based on the PowerAPI toolkit.
 SmartWatts is a configurable software that can estimate the power consumption of
 software in real-time.
